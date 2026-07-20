@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Pâtisserie Rose - Boutique Virtual</title>
+    
+    <!-- Google Fonts elegantes para pastelería premium -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Iconos de Google Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <!-- Tailwind CSS para el diseño responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        patisserie: {
+                            cream: '#FFFDFB',       // Fondo ultra suave y limpio
+                            softRose: '#FFF0F2',    // Rosa pastel de fondo secundario
+                            rose: '#E5989B',        // Rosa empolvado para acentos intermedios
+                            deepRose: '#B56576',    // Rosa oscuro para botones y enlaces importantes
+                            gold: '#D4A373',        // Toques dorados de repostería horneada
+                            accent: '#F4D35E',      // Amarillo pastel dulce para destacar calificaciones
+                            darkChocolate: '#3D272A',// Texto principal oscuro y cálido
+                            muted: '#8B7274'        // Texto secundario suavizado
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen flex flex-col relative overflow-x-hidden bg-gradient-to-tr from-patisserie-cream via-patisserie-softRose to-patisserie-cream text-patisserie-darkChocolate font-sans">
+
+    <!-- Contenedor de pétalos flotantes dinámicos -->
+    <div id="petal-shower-container" class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="floating-petal text-2xl" style="left: 5%; animation-delay: 0s; animation-duration: 15s;">🌸</div>
+        <div class="floating-petal text-xl" style="left: 25%; animation-delay: 4s; animation-duration: 20s;">🌹</div>
+        <div class="floating-petal text-2xl" style="left: 65%; animation-delay: 1s; animation-duration: 18s;">🌸</div>
+        <div class="floating-petal text-lg" style="left: 85%; animation-delay: 7s; animation-duration: 13s;">🌹</div>
+    </div>
+
+    <header class="w-full bg-white/70 backdrop-blur-md border-b border-patisserie-softRose sticky top-0 z-40 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
+            
+            <div class="flex items-center gap-3">
+                <!-- Contenedor del logotipo circular adaptado para imágenes -->
+                <div class="w-12 h-12 rounded-full bg-patisserie-softRose flex items-center justify-center shadow-inner border border-patisserie-rose/20 overflow-hidden select-none">
+                    <img 
+                        src="img/logo.png" 
+                        alt="Logo" 
+                        class="w-full h-full object-contain p-1" 
+                        onerror="this.onerror=null; this.src='https://placehold.co/100x100/FFF0F2/B56576?text=🌹';">
+                </div>
+                <div>
+                    <h1 class="font-serif text-2xl sm:text-3xl font-bold tracking-wide text-patisserie-darkChocolate">
+                        La Pâtisserie Rose
+                    </h1>
+                    <p class="text-[10px] font-sans tracking-widest text-patisserie-deepRose uppercase font-semibold">
+                        Haute Cuisine & Douceur
+                    </p>
+                </div>
+            </div>
+
+            <!-- Resumen rápido del carrito para móvil -->
+            <button onclick="scrollToCart()" class="lg:hidden flex items-center gap-1.5 bg-patisserie-softRose px-3.5 py-2 rounded-full text-patisserie-deepRose font-semibold text-xs active:scale-95 transition-transform shadow-sm">
+                <span class="material-icons text-sm">shopping_bag</span>
+                <span id="mobile-cart-count">0</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- COLUMNA IZQUIERDA Y CENTRAL: Hero, Secrets d'Amélie y Catálogo de Productos -->
+        <div class="lg:col-span-2 flex flex-col gap-8">
+            
+            <!-- Banner de bienvenida estilo boutique -->
+            <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-patisserie-darkChocolate to-[#28181B] text-white relative overflow-hidden shadow-xl flex flex-col justify-center min-h-[180px]">
+                <div class="absolute right-4 bottom-4 text-9xl opacity-10 select-none pointer-events-none">🧁</div>
+                <span class="text-xs font-semibold text-patisserie-rose tracking-widest uppercase mb-1">La Patisserie Rose</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold mb-2 tracking-tight text-patisserie-softRose">
+                    Experiencia Dulce & Artesanal
+                </h2>
+                <p class="text-xs sm:text-sm text-patisserie-softRose/80 max-w-lg font-light leading-relaxed">
+                   Sabores delicados, texturas memorables e hidratantes notas de dulzura. Horneados diariamente para ofrecerte una experiencia gourmet verdaderamente inolvidable.
+                </p>
+            </div>
+
+            <!-- NUEVO MÓDULO INTERACTIVO: LES SECRETS D'AMÉLIE -->
+            <section class="p-6 rounded-3xl border border-patisserie-softRose bg-white shadow-md flex flex-col gap-6 relative overflow-hidden">
+                <div class="flex justify-between items-center border-b border-patisserie-softRose pb-4">
+                    <h3 class="font-serif text-lg font-bold text-patisserie-darkChocolate flex items-center gap-2">
+                        <span class="material-icons text-patisserie-deepRose">auto_stories</span> 
+                        Fundadora La Pattiserie Rose 🌹
+                    </h3>
+                    <span class="text-[10px] font-sans text-patisserie-gold font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-patisserie-softRose/50 border border-patisserie-rose/20">
+                        Tips de La Pasttiserie Rose
+                    </span>
+                </div>
+
+                <!-- Diseño del Atelier (Dos columnas fluidas) -->
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                    
+                    <!-- Columna Izquierda: Retrato analógico de Amélie -->
+                    <div class="md:col-span-5 flex flex-col items-center text-center gap-4 select-none">
+                        <div class="relative group cursor-pointer" onclick="triggerPetalShower()">
+                            <!-- Marco de foto analógica parisina -->
+                            <div class="p-3 bg-white border border-zinc-200 shadow-lg rounded-2xl rotate-[-2deg] group-hover:rotate-0 transition-transform duration-500 w-48 mx-auto">
+                                <div class="w-full aspect-square bg-patisserie-softRose rounded-lg overflow-hidden mb-3">
+                                    <img src="./img/pajaro.png" 
+                                         alt="Calaina Sepulveda" 
+                                         class="w-full h-full object-cover filter sepia-[15%] group-hover:scale-105 transition-transform duration-500">
+                                </div>
+                                <span class="font-serif text-xs italic text-patisserie-muted block">Catalina Sepulveda</span>
+                            </div>
+                            <!-- Decoración de pétalos flotantes del retrato -->
+                            <span class="absolute -top-2 -right-2 text-xl animate-bounce">🌹</span>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha: Menú interactivo y tips revelados -->
+                    <div class="md:col-span-7 flex flex-col gap-4">
+                        <!-- Menú de pestañas táctiles -->
+                        <div class="flex flex-wrap gap-2 border-b border-patisserie-softRose/70 pb-3" id="secrets-tabs">
+                            <button onclick="selectSecret('hojaldre')" id="tab-hojaldre" class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-300 flex items-center gap-1.5 bg-patisserie-deepRose text-white shadow-sm">
+                                🥐 El Hojaldre
+                            </button>
+                            <button onclick="selectSecret('chocolate')" id="tab-chocolate" class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-300 flex items-center gap-1.5 bg-patisserie-cream border border-patisserie-softRose text-patisserie-muted hover:bg-patisserie-softRose/30">
+                                🍫 Chocolate
+                            </button>
+                            <button onclick="selectSecret('mantequilla')" id="tab-mantequilla" class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-300 flex items-center gap-1.5 bg-patisserie-cream border border-patisserie-softRose text-patisserie-muted hover:bg-patisserie-softRose/30">
+                                🧈 El Manjar
+                            </button>
+                        </div>
+
+                        <!-- Globo de diálogo dinámico -->
+                        <div class="bg-patisserie-softRose/30 border border-patisserie-softRose p-5 rounded-2xl relative min-h-[145px] flex flex-col justify-between">
+                            <div class="secret-bubble transition-all duration-300" id="secret-text-content">
+                                <h4 class="font-serif text-sm font-bold text-patisserie-deepRose mb-1.5" id="secret-title">
+                                    El Arte del Hojaldre Perfecto 🥐
+                                </h4>
+                                <p class="text-xs text-patisserie-darkChocolate italic leading-relaxed" id="secret-desc">
+                                    "El secreto de la ligereza es la paciencia, chérie. La masa debe descansar en frío entre cada vuelta a 4°C exactos para que la mantequilla mantenga sus finas láminas intactas."
+                                </p>
+                            </div>
+                            
+                            <!-- Acción de filtrado y recomendación -->
+                            <div class="mt-4 pt-3 border-t border-patisserie-softRose/50 flex flex-wrap justify-between items-center gap-2">
+                                <span class="text-[10px] font-semibold text-patisserie-muted flex items-center gap-1">
+                                    <span class="material-icons text-[12px] text-patisserie-gold animate-pulse">star</span>
+                                    Recomendado: <strong class="text-patisserie-deepRose font-bold" id="secret-recommendation">Media Lunas (4 Uds)</strong>
+                                </span>
+                                <button onclick="filterAmelieFavorites()" class="px-4 py-1.5 rounded-full bg-patisserie-gold hover:bg-patisserie-darkChocolate text-white text-[10px] font-bold tracking-wider uppercase transition-colors flex items-center gap-1 shadow-sm">
+                                    <span class="material-icons text-[12px]">favorite</span> Ver Favoritos de Amélie
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECCIÓN DEL CATÁLOGO DE PRODUCTOS -->
+            <section class="flex flex-col gap-6">
+                <!-- Filtros de Categoría -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <h3 class="font-serif text-2xl font-bold text-patisserie-darkChocolate" id="catalog-title">Nuestras Creaciones Diarias</h3>
+                    <div class="flex flex-wrap gap-2 items-center">
+                        <button onclick="filterCategory('Todos')" class="cat-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-patisserie-deepRose text-white transition-all shadow-sm" data-cat="Todos">Todos</button>
+                        <button onclick="filterCategory('Reposteria')" class="cat-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-white border border-patisserie-softRose text-patisserie-darkChocolate hover:bg-patisserie-softRose transition-all" data-cat="Reposteria">Reposteria 🍰</button>
+                        <button onclick="filterCategory('Bolleria')" class="cat-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-white border border-patisserie-softRose text-patisserie-darkChocolate hover:bg-patisserie-softRose transition-all" data-cat="Bolleria">Bollería 🥐</button>
+                        <button onclick="filterCategory('Pasteleria')" class="cat-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-white border border-patisserie-softRose text-patisserie-darkChocolate hover:bg-patisserie-softRose transition-all" data-cat="Pasteleria">Pastelería 🎂</button>
+                        <!-- Botón para Agregar Nueva Tarjeta -->
+                <!--         <button onclick="openAddProductModal()" class="px-4 py-1.5 rounded-full text-xs font-bold bg-patisserie-gold text-white hover:bg-patisserie-darkChocolate transition-all shadow-sm flex items-center gap-1.5">
+                            <span class="material-icons text-[14px]">add_circle</span> Crear Receta
+                        </button> -->
+                    </div>
+                </div>
+
+                <!-- Grid de productos -->
+                <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                    <!-- Las tarjetas se generan dinámicamente aquí mediante JavaScript -->
+                </div>
+            </section>
+        </div>
+
+        <!-- COLUMNA DERECHA: Carrito de Compras Elegante con Entrega Integrada -->
+        <div id="sidebar-cart" class="lg:col-span-1 h-fit bg-white border border-patisserie-softRose rounded-3xl p-6 shadow-md flex flex-col justify-between sticky top-24">
+            
+            <div class="border-b border-patisserie-softRose pb-4">
+                <h3 class="font-serif text-xl font-bold text-patisserie-darkChocolate flex items-center gap-2">
+                    <span class="material-icons text-patisserie-deepRose">shopping_bag</span> 
+                    Tu Cesta de Compra
+                </h3>
+            </div>
+
+            <!-- Contenedor de Items seleccionados -->
+            <div id="cart-items-container" class="flex-1 overflow-y-auto max-h-[350px] py-4 flex flex-col gap-3">
+                <!-- Se rellena automáticamente por Javascript -->
+            </div>
+
+            <!-- Selector de Entrega (Envío o Retiro) -->
+            <div class="mb-4">
+                <label class="block text-[10px] font-bold text-patisserie-muted uppercase tracking-wider mb-2">Método de Entrega</label>
+                <div class="grid grid-cols-2 gap-2 bg-patisserie-softRose/20 p-1 rounded-xl border border-patisserie-softRose/50">
+                    <button type="button" onclick="setDeliveryMethod('pickup')" id="delivery-pickup" class="py-2 text-xs font-bold rounded-lg transition-all shadow-sm bg-white text-patisserie-deepRose">
+                        🏪 Retiro ($0)
+                    </button>
+                    <button type="button" onclick="setDeliveryMethod('delivery')" id="delivery-delivery" class="py-2 text-xs font-bold rounded-lg transition-all text-patisserie-muted hover:text-patisserie-darkChocolate">
+                        🛵 Envío ($2.000)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Resumen financiero y Checkout -->
+            <div class="border-t border-patisserie-softRose pt-4 mt-auto">
+                <div class="flex justify-between items-center mb-2 text-xs text-patisserie-muted">
+                    <span>Subtotal</span>
+                    <span id="summary-subtotal">$0</span>
+                </div>
+                <div class="flex justify-between items-center mb-2 text-xs text-patisserie-muted">
+                    <span>Envio</span>
+                    <span id="summary-delivery">$0</span>
+                </div>
+                <div class="flex justify-between items-center mb-4 text-sm font-bold text-patisserie-darkChocolate">
+                    <span>Total Estimado</span>
+                    <span id="summary-total" class="text-lg text-patisserie-deepRose">$0</span>
+                </div>
+
+                <button id="btn-checkout" onclick="openCheckoutModal()" disabled class="w-full py-3.5 rounded-full font-bold text-xs text-white transition-all shadow-md flex items-center justify-center gap-2 bg-patisserie-rose/50 cursor-not-allowed">
+                    <span class="material-icons text-sm">payment</span> Procesar Pedido de la Casa
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL DE CHECKOUT (WhatsApp API integration) -->
+    <div id="checkout-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full mx-4 shadow-2xl border border-patisserie-softRose flex flex-col items-center text-center relative transform scale-90 transition-all duration-300">
+            <!-- Icono Decorativo -->
+            <div class="w-16 h-16 rounded-full bg-patisserie-softRose text-patisserie-deepRose flex items-center justify-center mb-4 text-3xl select-none">
+                🌹
+            </div>
+            
+            <h4 class="font-serif text-2xl font-bold text-patisserie-darkChocolate mb-2">
+                ¡Casi listo, Chérie!
+            </h4>
+            <p class="text-xs text-patisserie-muted leading-relaxed mb-4">
+                Completa tus datos para enviar tu pedido directamente a nuestro <span class="font-semibold text-patisserie-deepRose">WhatsApp de atención</span>.
+            </p>
+
+            <!-- Formulario de contacto para el WhatsApp -->
+            <div class="w-full flex flex-col gap-3 mb-4 text-left">
+                <div>
+                    <label class="text-[10px] uppercase font-bold tracking-wider text-patisserie-muted block mb-1">Tu Nombre</label>
+                    <input id="checkout-name" type="text" placeholder="Ej. Charlotte Dubois" class="w-full px-4 py-2.5 rounded-xl border border-patisserie-softRose text-xs bg-patisserie-cream focus:outline-none focus:ring-2 focus:ring-patisserie-rose transition-all">
+                </div>
+                <div id="group-address">
+                    <label class="text-[10px] uppercase font-bold tracking-wider text-patisserie-muted block mb-1">Dirección de Entrega / Notas de Despacho</label>
+                    <textarea id="cust-address" placeholder="Ej. Calle París 123, depto 402" rows="2" class="w-full px-4 py-2.5 rounded-xl border border-patisserie-softRose text-xs bg-patisserie-cream focus:outline-none focus:ring-2 focus:ring-patisserie-rose transition-all resize-none"></textarea>
+                </div>
+            </div>
+
+            <!-- Detalles del pedido simulados -->
+            <div class="w-full bg-patisserie-cream border border-patisserie-softRose rounded-2xl p-4 mb-6 text-left text-xs">
+                <div class="flex justify-between font-bold mb-2 border-b border-patisserie-softRose pb-1.5 text-patisserie-darkChocolate">
+                    <span>Monto de la Cesta</span>
+                    <span id="modal-grand-total">$0</span>
+                </div>
+                <div class="flex justify-between text-patisserie-muted mb-1">
+                    <span>Canal:</span>
+                    <span>Directo a WhatsApp 📱</span>
+                </div>
+            </div>
+
+            <!-- Botones de Acción -->
+            <div class="w-full flex flex-col gap-2">
+                <button onclick="sendWhatsAppOrder()" class="w-full py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-colors shadow-md flex items-center justify-center gap-1.5">
+                    <span class="material-icons text-base">chat</span> Enviar Pedido por WhatsApp
+                </button>
+                <button onclick="closeCheckoutModal()" class="w-full py-2.5 rounded-full border border-zinc-200 hover:bg-zinc-50 text-zinc-500 font-medium text-xs transition-colors">
+                    Seguir comprando
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PARA CREAR NUEVO PRODUCTO (TARJETA) -->
+<!-- 
+    <div id="add-product-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full mx-4 shadow-2xl border border-patisserie-softRose flex flex-col items-center text-center relative transform scale-90 transition-all duration-300">
+            <div class="w-16 h-16 rounded-full bg-patisserie-softRose text-patisserie-deepRose flex items-center justify-center mb-4 text-3xl select-none">
+                👩‍🍳
+            </div>
+            
+            <h4 class="font-serif text-2xl font-bold text-patisserie-darkChocolate mb-2">
+                Nueva Creación Gourmet
+            </h4>
+            <p class="text-xs text-patisserie-muted leading-relaxed mb-4">
+                Ingresa los detalles para agregar una nueva receta al menú diario de la boutique.
+            </p>
+
+            <div class="w-full flex flex-col gap-3 mb-6 text-left">
+                <div>
+                    <label class="text-[10px] uppercase font-bold tracking-wider text-patisserie-muted block mb-1">Nombre de la Creación</label>
+                    <input id="new-prod-name" type="text" placeholder="Ej. Macaron de Lavanda" class="w-full px-4 py-2.5 rounded-xl border border-patisserie-softRose text-xs bg-patisserie-cream focus:outline-none focus:ring-2 focus:ring-patisserie-rose transition-all">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="text-[10px] uppercase font-bold tracking-wider text-patisserie-muted block mb-1">Categoría</label>
+                        <select id="new-prod-category" class="w-full px-3 py-2.5 rounded-xl border border-patisserie-softRose text-xs bg-patisserie-cream focus:outline-none focus:ring-2 focus:ring-patisserie-rose transition-all">
+                            <option value="Reposteria">Reposteria 🍰</option>
+                            <option value="Bolleria">Bollería 🥐</option>
+                            <option value="Pasteleria">Pastelería 🎂</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-[10px] uppercase font-bold tracking-wider text-patisserie-muted block mb-1">Precio (CLP)</label>
+                        <input id="new-prod-price" type="number" placeholder="Ej. 4200" class="w-full px-4 py-2.5 rounded-xl border border-patisserie-softRose text-xs bg-patisserie-cream focus:outline-none focus:ring-2 focus:ring-patisserie-rose transition-all">
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                    <div class="col-span-1">
+                        <label class="text-[10px] uppercase font-bold tracking-wider text-patisserie-muted block mb-1">Emoji / Icono</label>
+                        <input id="new-prod-icon" type="text" placeholder="🧁" class="w-full px-4 py-2.5 rounded-xl border border-patisserie-softRose text-xs text-center bg-patisserie-cream focus:outline-none focus:ring-2 focus:ring-patisserie-rose transition-all">
+                    </div>
+                    <div class="col-span-2">
+                        <label class="text-[10px] uppercase font-bold tracking-wider text-patisserie-muted block mb-1">Rating de la Casa (1.0 - 5.0)</label>
+                        <input id="new-prod-rating" type="number" step="0.1" min="1" max="5" placeholder="4.9" class="w-full px-4 py-2.5 rounded-xl border border-patisserie-softRose text-xs bg-patisserie-cream focus:outline-none focus:ring-2 focus:ring-patisserie-rose transition-all">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase font-bold tracking-wider text-patisserie-muted block mb-1">Descripción de la Receta</label>
+                    <textarea id="new-prod-desc" placeholder="Ingredientes premium y secretos de la Maison..." rows="2" class="w-full px-4 py-2.5 rounded-xl border border-patisserie-softRose text-xs bg-patisserie-cream focus:outline-none focus:ring-2 focus:ring-patisserie-rose transition-all resize-none"></textarea>
+                </div>
+            </div>
+
+             Botones de Acción 
+            <div class="w-full flex flex-col gap-2">
+                <button onclick="addNewProduct()" class="w-full py-3.5 rounded-full bg-patisserie-deepRose hover:bg-patisserie-darkChocolate text-white font-bold text-xs transition-colors shadow-md flex items-center justify-center gap-1.5">
+                    <span class="material-icons text-base">restaurant_menu</span> Publicar en Boutique
+                </button>
+                <button onclick="closeAddProductModal()" class="w-full py-2.5 rounded-full border border-zinc-200 hover:bg-zinc-50 text-zinc-500 font-medium text-xs transition-colors">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+-->
+    <!-- Pie de página -->
+    <footer class="w-full bg-patisserie-darkChocolate text-patisserie-softRose py-8 mt-12 border-t border-patisserie-deepRose/20 relative z-10 text-center text-xs">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col items-center gap-4">
+            <div class="flex items-center gap-2 text-base font-serif">
+                <span>🌹</span> <strong>La Pâtisserie Rose</strong>
+            </div>
+            <p class="opacity-75 max-w-md font-light leading-relaxed">
+                La Pâtisserie Rose. <br>
+                Sabor artesanal horneado con amor y delicadeza.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. Base de Datos de Creaciones Gourmet ---
+        const PRODUCTS = [
+            { id: 'rose-p1', category: 'Bolleria', name: 'Barquillos Rellenos de manjar (10 Uds)', price: 5000, rating: 4.9, icon: '🥖', image:'img/barquillos.png', desc: 'Crujientes barquillos rellenos con un suave y cremoso manjar.', amelieFavorite: true },
+            { id: 'rose-p2', category: 'Bolleria', name: 'Media Lunas (4 Uds)', price: 2500, rating: 4.8, icon: '🥐', image: 'img/medialunas.png', desc: 'Suaves, esponjosas y recién horneadas.', amelieFavorite: false },
+            { id: 'rose-p3', category: 'Bolleria', name: 'Waffle Frutos Rojos', price: 2800, rating: 5.0, icon: '🧇', image: 'img/waflefrutosrojos.jpg', desc: 'Waffle dorado con una irresistible selección de frutos rojos.', amelieFavorite: false },
+            { id: 'rose-p4', category: 'Bolleria', name: 'Waffle Triton', price: 2800, rating: 5.0, icon: '🧇', image: 'img/wafletriton.jpg', desc: 'La combinación perfecta entre waffle y galletas Tritón.', amelieFavorite: false },
+            { id: 'rose-p5', category: 'Bolleria', name: 'Waffle Super 8', price: 2800, rating: 4.9, icon: '🧇', image: 'img/waflesuper8.jpg', desc: 'El clásico Super 8 sobre un delicioso waffle recién preparado.', amelieFavorite: false },
+            { id: 'rose-p6', category: 'Bolleria', name: 'Waffle Bon o Bon', price: 2800, rating: 4.9, icon: '🧇', image: 'img/waflebonobon.jpg', desc: 'La combinación perfecta entre waffle y Bon o Bon.', amelieFavorite: false },
+            { id: 'rose-p7', category: 'Bolleria', name: 'Donas Chocolate (3 Uds)', price: 2300, rating: 4.9, icon: '🍩', image: 'img/donas.png', desc: 'Esponjosa dona cubierta con una deliciosa capa de chocolate.', amelieFavorite: false },
+            { id: 'rose-p8', category: 'Bolleria', name: 'Profiteroles Bañados en Chocolate (5 Uds)', price: 2300, rating: 5.0, icon: '🧁', image: 'img/profiterol.png', desc: 'Suave profiterol con una irresistible cobertura de chocolate.', amelieFavorite: false },
+            { id: 'rose-p9', category: 'Reposteria', name: 'Pie de Limón', price: 18000, rating: 5.0, icon: '🥧', image: 'img/pielimon.png', desc: 'Base crujiente con crema de limón seleccionada y merengue tostado.', amelieFavorite: false },
+            { id: 'rose-p10', category: 'Reposteria', name: 'Pie de Chocolate', price: 13000, rating: 5.0, icon: '🥧', image: 'img/pronto.png', desc: 'Exquisito pastel con ganache de chocolate belga premium.', amelieFavorite: false },
+            { id: 'rose-p11', category: 'Reposteria', name: 'Pie de Moka', price: 13000, rating: 4.9, icon: '🥧', image: 'img/pronto.png', desc: 'Fusión de café espresso y chocolate dulce en masa sablée.', amelieFavorite: false },
+            { id: 'rose-p12', category: 'Reposteria', name: 'Tarta de Frutas', price: 15000, rating: 4.9, icon: '🍰', image: 'img/tartafrutas.jpg', desc: 'Crema pastelera suave cubierta de deliciosas frutas de la estación.', amelieFavorite: false },
+            { id: 'rose-p13', category: 'Reposteria', name: 'Tarta de Frutos Rojos', price: 18000, rating: 5.0, icon: '🍰', image: 'img/tartafrutosrojos.png', desc: 'Relleno delicado de frambuesas y murtillas frescas con toque de rosas.', amelieFavorite: true },
+            { id: 'rose-p14', category: 'Reposteria', name: 'Kuchen de Manzana', price: 20000, rating: 5.0, icon: '🥧', image: 'img/pronto.png', desc: 'Kuchen tradicional alemán con manzanas tiernas y canela.', amelieFavorite: true },
+            { id: 'rose-p15', category: 'Reposteria', name: 'Kuchen de Nuez', price: 20000, rating: 4.9, icon: '🥧', image: 'img/kuchennuez.png', desc: 'Masa fina crujiente cubierta con abundante caramelo de nueces.', amelieFavorite: false },
+            { id: 'rose-p16', category: 'Reposteria', name: 'Muffins Chocolate', price: 1800, rating: 5.0, icon: '🧁', image: 'img/muffinchocolate.png', desc: 'Muffins esponjosos con chips de chocolate fundido.', amelieFavorite: false },
+            { id: 'rose-p17', category: 'Reposteria', name: 'Muffins Red Velvet', price: 2000, rating: 4.9, icon: '🧁', image: 'img/muffinredvelvet.png', desc: 'Aterciopelados muffins rojos con frosting de queso crema.', amelieFavorite: false },
+            { id: 'rose-p18', category: 'Reposteria', name: 'Muffins Arandano Frambuesa', price: 2000, rating: 4.9, icon: '🧁', image: 'img/muffinarandanofranbuesa.png', desc: 'Deliciosa masa de vainilla rellena con arándanos y frambuesas silvestres.', amelieFavorite: false },
+            { id: 'rose-p19', category: 'Reposteria', name: 'Queque Vainilla', price: 8000, rating: 4.9, icon: '🍞', image: 'img/queque.png', desc: 'Queque casero con un intenso aroma a vaina de vainilla natural.', amelieFavorite: false },
+            { id: 'rose-p20', category: 'Reposteria', name: 'Queque Marmol', price: 8000, rating: 5.0, icon: '🍞', image: 'img/queque.png', desc: 'Mezcla perfecta de queque de vainilla y cacao de exportación.', amelieFavorite: false },
+            { id: 'rose-p21', category: 'Reposteria', name: 'Queque Vainilla Bañado Chocolate', price: 10000, rating: 4.9, icon: '🍞', image: 'img/quequebañado.png', desc: 'Queque tradicional bañado con cobertura de chocolate amargo.', amelieFavorite: false },
+            { id: 'rose-p22', category: 'Reposteria', name: 'Queque Marmol Bañado Chocolate', price: 10000, rating: 4.9, icon: '🍞', image: 'img/quequebañado.png', desc: 'Queque de mármol decorado con hilos de chocolate crujiente.', amelieFavorite: false },
+            { id: 'rose-p23', category: 'Pasteleria', name: 'Mini Torta Manjar, Mermelada Frutilla', price: 5000, rating: 5.0, icon: '🎂', image: 'img/pronto.png', desc: 'Un pequeño placer con un gran sabor. Diámetro 10cm aprox.', amelieFavorite: false },
+            { id: 'rose-p24', category: 'Pasteleria', name: 'Mini Torta Manjar, Frutos Rojos', price: 5000, rating: 5.0, icon: '🎂', image: 'img/pronto.png', desc: 'Un pequeño placer con un gran sabor. Diámetro 10cm aprox.', amelieFavorite: false },
+            { id: 'rose-p25', category: 'Pasteleria', name: 'Mini Torta Manjar, Manjar Durazno', price: 5000, rating: 5.0, icon: '🎂', image: 'img/pronto.png', desc: 'Un pequeño placer con un gran sabor. Diámetro 10cm aprox.', amelieFavorite: false },
+            { id: 'rose-p26', category: 'Pasteleria', name: 'Mini Torta Manjar, Galletas Triton', price: 5000, rating: 5.0, icon: '🎂', image: 'img/tortatriton.png', desc: 'Un pequeño placer con un gran sabor. Diámetro 10cm aprox.', amelieFavorite: false },
+            { id: 'rose-p30', category: 'Pasteleria', name: 'Mini Torta Piña, Crema Chantilly', price: 5000, rating: 5.0, icon: '🎂', image: 'img/pronto.png', desc: 'Un pequeño placer con un gran sabor. Diámetro 10cm aprox.', amelieFavorite: false},
+            { id: 'rose-p27', category: 'Pasteleria', name: 'Mini Torta Tematizada', price: 8000, rating: 5.0, icon: '🎂', image: 'img/tortacumpleaños.png', desc: 'Un pequeño placer con un gran sabor. Diámetro 10cm aprox.', amelieFavorite: false },
+            { id: 'rose-p28', category: 'Pasteleria', name: 'Mini Torta Personalizada con Topper', price: 10000, rating: 5.0, icon: '🎂', image: 'img/tortatopper.png', desc: 'Un pequeño placer con un gran sabor. Diámetro 10cm aprox.', amelieFavorite: false },
+            { id: 'rose-p29', category: 'Pasteleria', name: 'Mini Torta Personalizada con Buttercream', price: 10000, rating: 5.0, icon: '🎂', image: 'img/tortahellokity.png', desc: 'Un pequeño placer con un gran sabor. Diámetro 10cm aprox.', amelieFavorite: false },
+            { id: 'rose-p30', category: 'Pasteleria', name: 'Mini Torta Piña, Crema Chantilly', price: 5000, rating: 5.0, icon: '🎂', image: 'img/pronto.png', desc: 'Un pequeño placer con un gran sabor. Diámetro 10cm aprox.', amelieFavorite: false },
+        ];
+
+        // --- Datos de los Secretos de Amélie ---
+        const AMELIE_SECRETS = {
+            hojaldre: {
+                title: "El Arte del Hojaldre Perfecto 🥐",
+                desc: "\"El secreto de la ligereza es la paciencia, chérie. La masa debe descansar en frío entre cada vuelta a 4°C exactos para que la mantequilla mantenga sus finas láminas intactas, creando una textura aérea al hornear.\"",
+                recommendation: "Media Lunas (4 Uds)"
+            },
+            chocolate: {
+                title: "La Intensa Pureza del Cacao 🍫",
+                desc: "\"Seleccionamos cacao de origen sostenible procesado a temperaturas precisas. Esto nos permite lograr coberturas sedosas, un brillo perfecto y un equilibrio justo entre amargura y dulzura.\"",
+                recommendation: "Pie de chocolate"
+            },
+            mantequilla: {
+                title: "El Alma del Manjar Casero 🧈",
+                desc: "\"La cocción lenta de la leche fresca con vainilla natural genera esa textura sedosa e inigualable. Combinada con nuestra masa, creamos un contraste perfecto que deleita el paladar.\"",
+                recommendation: "Barquillos Rellenos de manjar (10 Uds)"
+            }
+        };
+
+        // Formateador de CLP
+        const formatCLP = (value) => {
+            return '$' + Math.round(value).toLocaleString('es-CL');
+        };
+
+        // Banner de notificación premium alternativo a alert()
+        const showNotification = (message, type = 'success') => {
+            const banner = document.createElement('div');
+            banner.className = `fixed top-6 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3.5 rounded-full shadow-2xl text-white font-bold text-xs tracking-wider transition-all duration-300 opacity-0 scale-90 flex items-center gap-2 ${type === 'success' ? 'bg-emerald-600' : 'bg-patisserie-deepRose'}`;
+            banner.innerHTML = `
+                <span class="material-icons text-sm">${type === 'success' ? 'check_circle' : 'error'}</span>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(banner);
+            
+            setTimeout(() => {
+                banner.classList.remove('opacity-0', 'scale-90');
+                banner.classList.add('opacity-100', 'scale-100');
+            }, 50);
+            
+            setTimeout(() => {
+                banner.classList.remove('opacity-100', 'scale-100');
+                banner.classList.add('opacity-0', 'scale-90');
+                setTimeout(() => banner.remove(), 300);
+            }, 3500);
+        };
+
+        // --- 2. Estado Global de la Cesta y Despacho ---
+        let cart = [];
+        let currentCategory = 'Todos';
+        let deliveryMethod = 'pickup'; // 'pickup' o 'delivery'
+        const DELIVERY_PRICE = 2000;
+
+        // --- 3. Sintetizador de Sonidos Web Audio API ---
+        const playSound = (type) => {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                if (ctx.state === 'suspended') {
+                    ctx.resume();
+                }
+
+                if (type === 'click') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(587.33, ctx.currentTime); // Re 5
+                    gain.gain.setValueAtTime(0.06, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.1);
+                } else if (type === 'bell') {
+                    const playNote = (freq, delay, duration) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, ctx.currentTime + delay);
+                        gain.gain.setValueAtTime(0, ctx.currentTime + delay);
+                        gain.gain.linearRampToValueAtTime(0.12, ctx.currentTime + delay + 0.02);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + duration);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(ctx.currentTime + delay);
+                        osc.stop(ctx.currentTime + delay + duration);
+                    };
+                    playNote(880, 0, 0.7);      // La 5
+                    playNote(1318.51, 0.08, 1.0); // Mi 6
+                } else if (type === 'success') {
+                    const playChord = (freq, delay) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, ctx.currentTime + delay);
+                        gain.gain.setValueAtTime(0, ctx.currentTime + delay);
+                        gain.gain.linearRampToValueAtTime(0.08, ctx.currentTime + delay + 0.03);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + 0.4);
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.start(ctx.currentTime + delay);
+                        osc.stop(ctx.currentTime + delay + 0.4);
+                    };
+                    playChord(523.25, 0);   // Do 5
+                    playChord(659.25, 0.1); // Mi 5
+                    playChord(783.99, 0.2); // Sol 5
+                    playChord(1046.50, 0.3); // Do 6
+                }
+            } catch (e) {
+                console.log('AudioContext silenciado por seguridad del navegador:', e);
+            }
+        };
+
+        // --- 4. Renderizado de Productos con Filtros ---
+        const renderProducts = () => {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+
+            const filtered = PRODUCTS.filter(p => {
+                if (currentCategory === 'Todos') return true;
+                if (currentCategory === 'Amelie') return p.amelieFavorite === true;
+                const cat = p.category || 'Reposteria';
+                return cat.toLowerCase() === currentCategory.toLowerCase();
+            });
+
+            filtered.forEach(p => {
+                const id = p.id || 'custom-' + Math.random();
+                const category = p.category || 'Otros';
+                const name = p.name || 'Creación de la Casa';
+                const price = p.price || 0;
+                const rating = p.rating || 5.0;
+                const icon = p.icon || '🧁';
+                const image = p.image || '';
+                const desc = p.desc || 'Elaborado diariamente con ingredientes seleccionados de nuestra pastelería.';
+                const isAmelieFav = p.amelieFavorite === true;
+
+                const card = document.createElement('div');
+                card.className = "p-5 rounded-3xl bg-white border border-patisserie-softRose flex flex-col justify-between patisserie-card shadow-sm relative overflow-hidden";
+
+                const ratingStars = `
+                    <div class="flex items-center text-patisserie-accent gap-0.5">
+                        <span class="material-icons text-sm">star</span>
+                        <span class="text-xs font-bold text-patisserie-darkChocolate">${rating}</span>
+                    </div>
+                `;
+
+                card.innerHTML = `
+                    <div>
+                        <!-- Etiqueta de Categoría o Favorito de Amélie -->
+                        <div class="flex justify-between items-center mb-3">
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-[9px] font-bold px-2.5 py-1 rounded-full bg-patisserie-softRose text-patisserie-deepRose uppercase tracking-wider">
+                                    ${category}
+                                </span>
+                                ${isAmelieFav ? `
+                                    <span class="text-[9px] font-bold px-2 py-0.5 rounded-full bg-patisserie-gold/15 text-patisserie-gold border border-patisserie-gold/30 flex items-center gap-0.5">
+                                        <span class="material-icons text-[10px]">favorite</span> Amélie
+                                    </span>
+                                ` : ''}
+                            </div>
+                            ${ratingStars}
+                        </div>
+                        
+                        <div class="w-full h-32 rounded-2xl bg-patisserie-softRose overflow-hidden mb-4 select-none relative group">
+                            <img src="${image}" alt="${name}" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='https://placehold.co/400x300/FFF0F2/B56576?text=${icon}'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-patisserie-darkChocolate/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        </div>
+
+                        <h4 class="font-serif text-lg font-bold text-patisserie-darkChocolate mb-1">
+                            ${name}
+                        </h4>
+                        <p class="text-[11px] text-patisserie-muted leading-relaxed mb-4 line-clamp-2">
+                            ${desc}
+                        </p>
+                    </div>
+
+                    <div class="flex justify-between items-center pt-3 border-t border-patisserie-softRose">
+                        <span class="font-serif text-base font-bold text-patisserie-darkChocolate">
+                            ${formatCLP(price)}
+                        </span>
+                        <button class="add-to-cart-btn px-4 py-2 rounded-full bg-patisserie-softRose text-patisserie-deepRose hover:bg-patisserie-deepRose hover:text-white transition-all flex items-center gap-1.5 text-xs font-bold shadow-sm">
+                            <span class="material-icons text-sm font-bold">add_shopping_cart</span> Agregar
+                        </button>
+                    </div>
+                `;
+
+                const btn = card.querySelector('.add-to-cart-btn');
+                btn.onclick = (e) => {
+                    e.stopPropagation();
+                    addToCart({ id, name, price, icon, image });
+                };
+
+                grid.appendChild(card);
+            });
+        };
+
+        // --- 5. Lógica de Filtrado de Categorías ---
+        const filterCategory = (category) => {
+            playSound('click');
+            currentCategory = category;
+
+            // Cambiar textos del título del catálogo para mejor claridad
+            const catalogTitle = document.getElementById('catalog-title');
+            if (category === 'Amelie') {
+                catalogTitle.textContent = "Los Favoritos de Mme. Amélie";
+            } else {
+                catalogTitle.textContent = category === 'Todos' ? "Nuestras Creaciones Diarias" : `Creaciones en ${category}`;
+            }
+            
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                const isSelected = btn.getAttribute('data-cat') === category;
+                if (isSelected) {
+                    btn.className = "cat-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-patisserie-deepRose text-white transition-all shadow-sm";
+                } else {
+                    btn.className = "cat-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-white border border-patisserie-softRose text-patisserie-darkChocolate hover:bg-patisserie-softRose transition-all";
+                }
+            });
+
+            renderProducts();
+        };
+
+        // --- 6. Interacción de los Secretos de Amélie ---
+        const selectSecret = (secretId) => {
+            playSound('click');
+            
+            // 1. Alternar Clases de las Pestañas
+            const tabsContainer = document.getElementById('secrets-tabs');
+            const buttons = tabsContainer.getElementsByTagName('button');
+            
+            for (let btn of buttons) {
+                if (btn.id === `tab-${secretId}`) {
+                    btn.className = "px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-300 flex items-center gap-1.5 bg-patisserie-deepRose text-white shadow-sm";
+                } else {
+                    btn.className = "px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-300 flex items-center gap-1.5 bg-patisserie-cream border border-patisserie-softRose text-patisserie-muted hover:bg-patisserie-softRose/30";
+                }
+            }
+
+            // 2. Transición Visual del Contenido de Texto
+            const textContainer = document.getElementById('secret-text-content');
+            textContainer.classList.add('opacity-0', 'translate-x-2');
+            
+            setTimeout(() => {
+                const secret = AMELIE_SECRETS[secretId];
+                document.getElementById('secret-title').textContent = secret.title;
+                document.getElementById('secret-desc').textContent = secret.desc;
+                document.getElementById('secret-recommendation').textContent = secret.recommendation;
+                
+                textContainer.classList.remove('opacity-0', 'translate-x-2');
+            }, 200);
+
+            // 3. Efecto visual de pétalos extra cayendo
+            triggerPetalShower();
+        };
+
+        const filterAmelieFavorites = () => {
+            playSound('success');
+            
+            // Filtra el catálogo para mostrar favoritos de Amélie
+            filterCategory('Amelie');
+            
+            // Scroll suave hacia el catálogo
+            document.getElementById('catalog-title').scrollIntoView({ behavior: 'smooth' });
+            showNotification("Catálogo filtrado por la selección favorita de Amélie chérie.");
+        };
+
+        // Lanza una ráfaga adicional de pétalos como recompensa visual
+        const triggerPetalShower = () => {
+            const container = document.getElementById('petal-shower-container');
+            const petals = ['🌸', '🌹', '✨'];
+            
+            for (let i = 0; i < 5; i++) {
+                const petal = document.createElement('div');
+                petal.className = "floating-petal text-xl pointer-events-none absolute";
+                petal.textContent = petals[Math.floor(Math.random() * petals.length)];
+                petal.style.left = `${Math.random() * 80 + 10}%`;
+                petal.style.top = `-2%`;
+                petal.style.animationDelay = `${Math.random() * 0.8}s`;
+                petal.style.animationDuration = `${Math.random() * 6 + 6}s`;
+                
+                container.appendChild(petal);
+                // Remover tras completar animación
+                setTimeout(() => petal.remove(), 12000);
+            }
+        };
+
+        // --- 7. Lógica de Alternancia Envío/Retiro ---
+        function setDeliveryMethod(method) {
+            playSound('click');
+            deliveryMethod = method;
+            
+            const btnPickup = document.getElementById('delivery-pickup');
+            const btnDelivery = document.getElementById('delivery-delivery');
+            const groupAddress = document.getElementById('group-address');
+            const custAddress = document.getElementById('cust-address');
+            
+            if (method === 'pickup') {
+                btnPickup.className = "py-2 text-xs font-bold rounded-lg transition-all shadow-sm bg-white text-patisserie-deepRose";
+                btnDelivery.className = "py-2 text-xs font-bold rounded-lg transition-all text-patisserie-muted hover:text-patisserie-darkChocolate";
+                
+                if (groupAddress) groupAddress.classList.add('hidden');
+                if (custAddress) custAddress.required = false;
+            } else {
+                btnPickup.className = "py-2 text-xs font-bold rounded-lg transition-all text-patisserie-muted hover:text-patisserie-darkChocolate";
+                btnDelivery.className = "py-2 text-xs font-bold rounded-lg transition-all shadow-sm bg-white text-patisserie-deepRose";
+                
+                if (groupAddress) groupAddress.classList.remove('hidden');
+                if (custAddress) custAddress.required = true;
+            }
+            
+            renderCart(); 
+        }
+
+        // --- 8. Operaciones del Carrito de Compras ---
+        const addToCart = (product) => {
+            playSound('click');
+            const itemExistente = cart.find(item => item.id === product.id);
+
+            if (itemExistente) {
+                itemExistente.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    icon: product.icon,
+                    image: product.image,
+                    quantity: 1
+                });
+            }
+            renderCart();
+            showNotification(`"${product.name}" agregado a tu cesta.`);
+        };
+
+        const updateCartQuantity = (id, change) => {
+            playSound('click');
+            const item = cart.find(item => item.id === id);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(item => item.id !== id);
+                }
+            }
+            renderCart();
+        };
+
+        const renderCart = () => {
+            const container = document.getElementById('cart-items-container');
+            container.innerHTML = '';
+
+            const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+            const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
+            document.getElementById('mobile-cart-count').textContent = totalItems;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center text-patisserie-muted gap-2 py-12 select-none">
+                        <span class="material-icons text-5xl text-patisserie-rose/50">shopping_basket</span>
+                        <p class="text-sm font-semibold">Tu cesta está vacía</p>
+                        <p class="text-[11px] text-patisserie-muted max-w-[180px]">
+                            Haz clic en cualquier creación del menú para deleitar tu paladar.
+                        </p>
+                    </div>
+                `;
+                
+                const btn = document.getElementById('btn-checkout');
+                btn.disabled = true;
+                btn.className = "w-full py-3.5 rounded-full font-bold text-xs text-white transition-all shadow-md flex items-center justify-center gap-2 bg-patisserie-rose/50 cursor-not-allowed";
+                
+                document.getElementById('summary-subtotal').textContent = formatCLP(0);
+                document.getElementById('summary-delivery').textContent = formatCLP(0);
+                document.getElementById('summary-total').textContent = formatCLP(0);
+            } else {
+                cart.forEach(item => {
+                    const row = document.createElement('div');
+                    row.className = "p-3 rounded-2xl bg-patisserie-softRose/50 border border-patisserie-softRose flex items-center justify-between gap-3";
+                    row.innerHTML = `
+                        <div class="w-10 h-10 rounded-xl bg-white overflow-hidden flex-shrink-0 shadow-sm border border-patisserie-softRose">
+                            <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/48x48/FFF0F2/B56576?text=${item.icon}'">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h5 class="text-xs font-bold text-patisserie-darkChocolate truncate">${item.name}</h5>
+                            <span class="text-[10px] text-patisserie-muted">${formatCLP(item.price)}</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white px-2 py-1 rounded-full border border-patisserie-softRose">
+                            <button onclick="updateCartQuantity('${item.id}', -1)" class="w-5 h-5 flex items-center justify-center rounded-full text-patisserie-muted hover:bg-patisserie-softRose text-xs font-bold">-</button>
+                            <span class="text-xs font-bold text-patisserie-darkChocolate min-w-[12px] text-center">${item.quantity}</span>
+                            <button onclick="updateCartQuantity('${item.id}', 1)" class="w-5 h-5 flex items-center justify-center rounded-full text-patisserie-muted hover:bg-patisserie-softRose text-xs font-bold">+</button>
+                        </div>
+                    `;
+                    container.appendChild(row);
+                });
+
+                // Cálculos Financieros
+                const deliveryCost = (deliveryMethod === 'delivery') ? DELIVERY_PRICE : 0;
+                const grandTotal = subtotal + deliveryCost;
+
+                document.getElementById('summary-subtotal').textContent = formatCLP(subtotal);
+                document.getElementById('summary-delivery').textContent = formatCLP(deliveryCost);
+                document.getElementById('summary-total').textContent = formatCLP(grandTotal);
+
+                const btn = document.getElementById('btn-checkout');
+                btn.disabled = false;
+                btn.className = "w-full py-3.5 rounded-full font-bold text-xs text-white transition-all shadow-md flex items-center justify-center gap-2 bg-patisserie-deepRose hover:bg-patisserie-darkChocolate active:scale-95 duration-300";
+            }
+        };
+
+        // --- 9. Lógica de Modales de Creación de Productos ---
+        const openAddProductModal = () => {
+            playSound('click');
+            const modal = document.getElementById('add-product-modal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.querySelector('.bg-white').classList.remove('scale-90');
+            modal.querySelector('.bg-white').classList.add('scale-100');
+        };
+
+        const closeAddProductModal = () => {
+            playSound('click');
+            const modal = document.getElementById('add-product-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('.bg-white').classList.remove('scale-100');
+            modal.querySelector('.bg-white').classList.add('scale-90');
+            
+            // Limpiar formulario
+            document.getElementById('new-prod-name').value = '';
+            document.getElementById('new-prod-price').value = '';
+            document.getElementById('new-prod-icon').value = '';
+            document.getElementById('new-prod-rating').value = '';
+            document.getElementById('new-prod-desc').value = '';
+        };
+
+        const addNewProduct = () => {
+            const name = document.getElementById('new-prod-name').value.trim();
+            const category = document.getElementById('new-prod-category').value;
+            const price = parseFloat(document.getElementById('new-prod-price').value);
+            const icon = document.getElementById('new-prod-icon').value.trim() || '🧁';
+            const ratingInput = parseFloat(document.getElementById('new-prod-rating').value);
+            const desc = document.getElementById('new-prod-desc').value.trim() || 'Creación artesanal fresca de la Maison.';
+
+            if (!name) {
+                showNotification('Por favor, ingresa el nombre de tu creación.', 'error');
+                return;
+            }
+            if (isNaN(price) || price < 0) {
+                showNotification('Ingresa un precio válido, s\'il vous plaît.', 'error');
+                return;
+            }
+
+            const rating = isNaN(ratingInput) ? 5.0 : Math.min(Math.max(ratingInput, 1.0), 5.0);
+
+            // Crear nuevo objeto producto
+            const newProduct = {
+                id: 'custom-' + Date.now(),
+                category: category,
+                name: name,
+                price: price,
+                rating: rating,
+                icon: icon,
+                image: `https://placehold.co/400x300/FFF0F2/B56576?text=${encodeURIComponent(icon)}`,
+                desc: desc,
+                amelieFavorite: false
+            };
+
+            // Agregar a la base de datos local
+            PRODUCTS.push(newProduct);
+            
+            // Recargar productos y cerrar modal
+            renderProducts();
+            closeAddProductModal();
+            playSound('success');
+            showNotification(`¡"${name}" ha sido añadido al menú de ${category}!`);
+        };
+
+        // --- 10. Procesamiento de Compra y WhatsApp ---
+        const openCheckoutModal = () => {
+            playSound('click');
+            const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+            const deliveryCost = (deliveryMethod === 'delivery') ? DELIVERY_PRICE : 0;
+            const grandTotal = subtotal + deliveryCost;
+
+            document.getElementById('modal-grand-total').textContent = formatCLP(grandTotal);
+
+            const modal = document.getElementById('checkout-modal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.querySelector('.bg-white').classList.remove('scale-90');
+            modal.querySelector('.bg-white').classList.add('scale-100');
+        };
+
+        const closeCheckoutModal = () => {
+            playSound('click');
+            const modal = document.getElementById('checkout-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('.bg-white').classList.remove('scale-100');
+            modal.querySelector('.bg-white').classList.add('scale-90');
+        };
+
+        const sendWhatsAppOrder = () => {
+            const name = document.getElementById('checkout-name').value.trim();
+            const address = document.getElementById('cust-address').value.trim();
+
+            if (!name) {
+                showNotification('Por favor chérie, ingresa tu nombre para procesar tu reserva.', 'error');
+                return;
+            }
+
+            if (deliveryMethod === 'delivery' && !address) {
+                showNotification('Por favor chérie, indícanos tu dirección para el envio.', 'error');
+                return;
+            }
+
+            playSound('success');
+
+            const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+            const deliveryCost = (deliveryMethod === 'delivery') ? DELIVERY_PRICE : 0;
+            const grandTotal = subtotal + deliveryCost;
+
+            // Construir el mensaje de WhatsApp elegante
+            let message = `*Bonjour La Pâtisserie Rose!* 🌹\n`;
+            message += `He realizado un pedido desde la Boutique Virtual:\n\n`;
+            message += `👤 *Cliente:* ${name}\n`;
+            message += `🚚 *Método:* ${deliveryMethod === 'delivery' ? 'Envío a domicilio' : 'Retiro en Tienda'}\n`;
+            if (deliveryMethod === 'delivery') {
+                message += `📍 *Dirección:* ${address}\n`;
+            }
+            message += `\n*Detalle de la Cesta:*\n`;
+
+            cart.forEach(item => {
+                message += `- ${item.quantity}x ${item.icon || '🧁'} _${item.name}_ (${formatCLP(item.price * item.quantity)})\n`;
+            });
+
+            message += `\n*Finanzas:*`;
+            message += `\n- Subtotal: ${formatCLP(subtotal)}`;
+            message += `\n- Despacho: ${formatCLP(deliveryCost)}`;
+            message += `\n- *Total Estimado: ${formatCLP(grandTotal)}*\n`;
+            message += `\n_Quedo atento a la confirmación de la Maison para la transferencia._`;
+
+            const phone = "56912345678"; // Reemplazar con el WhatsApp oficial
+            const url = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`;
+            
+            window.open(url, '_blank');
+            closeCheckoutModal();
+
+            // Limpiar cesta tras el envío
+            cart = [];
+            renderCart();
+            showNotification('¡Pedido enviado con éxito a nuestro canal gourmet!');
+        };
+
+        const scrollToCart = () => {
+            playSound('click');
+            document.getElementById('sidebar-cart').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        // --- 11. Inicialización de la Boutique ---
+        window.onload = () => {
+            renderProducts();
+            renderCart();
+            setDeliveryMethod('pickup'); // Por defecto Retiro
+            selectSecret('hojaldre'); // Seleccionar por defecto el primer secreto
+        };
+    </script>
+</body>
+</html>
