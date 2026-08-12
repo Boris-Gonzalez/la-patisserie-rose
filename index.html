@@ -80,7 +80,7 @@
 
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        <!-- COLUMNA IZQUIERDA Y CENTRAL: Hero, Secrets d'Amélie y Catálogo de Productos -->
+        <!-- COLUMNA IZQUIERDA Y CENTRAL: Hero, Horarios, Secrets d'Amélie y Catálogo de Productos -->
         <div class="lg:col-span-2 flex flex-col gap-8">
             
             <!-- Banner de bienvenida estilo boutique -->
@@ -94,6 +94,30 @@
                    Sabores delicados, texturas memorables e hidratantes notas de dulzura. Horneados diariamente para ofrecerte una experiencia gourmet verdaderamente inolvidable.
                 </p>
             </div>
+
+            <!-- SECCIÓN DE HORARIOS DE ATENCIÓN -->
+            <section class="p-6 rounded-3xl border border-patisserie-softRose bg-white shadow-md flex flex-col gap-4">
+                <div class="flex items-center gap-2 border-b border-patisserie-softRose pb-3">
+                    <span class="material-icons text-patisserie-deepRose">schedule</span>
+                    <h3 class="font-serif text-lg font-bold text-patisserie-darkChocolate">Horarios de Atención</h3>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                    <div class="p-3.5 rounded-2xl bg-patisserie-softRose/30 border border-patisserie-softRose flex items-center gap-3">
+                        <span class="material-icons text-patisserie-gold">storefront</span>
+                        <div>
+                            <span class="font-bold text-patisserie-darkChocolate block">Lunes a Sábado</span>
+                            <span class="text-patisserie-muted">10:00 hrs - 20:00 hrs</span>
+                        </div>
+                    </div>
+                    <div class="p-3.5 rounded-2xl bg-patisserie-softRose/30 border border-patisserie-softRose flex items-center gap-3">
+                        <span class="material-icons text-patisserie-gold">local_shipping</span>
+                        <div>
+                            <span class="font-bold text-patisserie-darkChocolate block">Domingos y Festivos</span>
+                            <span class="text-patisserie-muted">Solo pedidos anticipados / Entregas programadas</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <!-- NUEVO MÓDULO INTERACTIVO: LES SECRETS D'AMÉLIE -->
             <section class="p-6 rounded-3xl border border-patisserie-softRose bg-white shadow-md flex flex-col gap-6 relative overflow-hidden">
@@ -179,10 +203,6 @@
                         <button onclick="filterCategory('Reposteria')" class="cat-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-white border border-patisserie-softRose text-patisserie-darkChocolate hover:bg-patisserie-softRose transition-all" data-cat="Reposteria">Reposteria 🍰</button>
                         <button onclick="filterCategory('Bolleria')" class="cat-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-white border border-patisserie-softRose text-patisserie-darkChocolate hover:bg-patisserie-softRose transition-all" data-cat="Bolleria">Bollería 🥐</button>
                         <button onclick="filterCategory('Pasteleria')" class="cat-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-white border border-patisserie-softRose text-patisserie-darkChocolate hover:bg-patisserie-softRose transition-all" data-cat="Pasteleria">Pastelería 🎂</button>
-                        <!-- Botón para Agregar Nueva Tarjeta -->
-                <!--         <button onclick="openAddProductModal()" class="px-4 py-1.5 rounded-full text-xs font-bold bg-patisserie-gold text-white hover:bg-patisserie-darkChocolate transition-all shadow-sm flex items-center gap-1.5">
-                            <span class="material-icons text-[14px]">add_circle</span> Crear Receta
-                        </button> -->
                     </div>
                 </div>
 
@@ -294,68 +314,6 @@
         </div>
     </div>
 
-    <!-- MODAL PARA CREAR NUEVO PRODUCTO (TARJETA) -->
-<!-- 
-    <div id="add-product-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 opacity-0 pointer-events-none transition-all duration-300">
-        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full mx-4 shadow-2xl border border-patisserie-softRose flex flex-col items-center text-center relative transform scale-90 transition-all duration-300">
-            <div class="w-16 h-16 rounded-full bg-patisserie-softRose text-patisserie-deepRose flex items-center justify-center mb-4 text-3xl select-none">
-                👩‍🍳
-            </div>
-            
-            <h4 class="font-serif text-2xl font-bold text-patisserie-darkChocolate mb-2">
-                Nueva Creación Gourmet
-            </h4>
-            <p class="text-xs text-patisserie-muted leading-relaxed mb-4">
-                Ingresa los detalles para agregar una nueva receta al menú diario de la boutique.
-            </p>
-
-            <div class="w-full flex flex-col gap-3 mb-6 text-left">
-                <div>
-                    <label class="text-[10px] uppercase font-bold tracking-wider text-patisserie-muted block mb-1">Nombre de la Creación</label>
-                    <input id="new-prod-name" type="text" placeholder="Ej. Macaron de Lavanda" class="w-full px-4 py-2.5 rounded-xl border border-patisserie-softRose text-xs bg-patisserie-cream focus:outline-none focus:ring-2 focus:ring-patisserie-rose transition-all">
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="text-[10px] uppercase font-bold tracking-wider text-patisserie-muted block mb-1">Categoría</label>
-                        <select id="new-prod-category" class="w-full px-3 py-2.5 rounded-xl border border-patisserie-softRose text-xs bg-patisserie-cream focus:outline-none focus:ring-2 focus:ring-patisserie-rose transition-all">
-                            <option value="Reposteria">Reposteria 🍰</option>
-                            <option value="Bolleria">Bollería 🥐</option>
-                            <option value="Pasteleria">Pastelería 🎂</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="text-[10px] uppercase font-bold tracking-wider text-patisserie-muted block mb-1">Precio (CLP)</label>
-                        <input id="new-prod-price" type="number" placeholder="Ej. 4200" class="w-full px-4 py-2.5 rounded-xl border border-patisserie-softRose text-xs bg-patisserie-cream focus:outline-none focus:ring-2 focus:ring-patisserie-rose transition-all">
-                    </div>
-                </div>
-                <div class="grid grid-cols-3 gap-2">
-                    <div class="col-span-1">
-                        <label class="text-[10px] uppercase font-bold tracking-wider text-patisserie-muted block mb-1">Emoji / Icono</label>
-                        <input id="new-prod-icon" type="text" placeholder="🧁" class="w-full px-4 py-2.5 rounded-xl border border-patisserie-softRose text-xs text-center bg-patisserie-cream focus:outline-none focus:ring-2 focus:ring-patisserie-rose transition-all">
-                    </div>
-                    <div class="col-span-2">
-                        <label class="text-[10px] uppercase font-bold tracking-wider text-patisserie-muted block mb-1">Rating de la Casa (1.0 - 5.0)</label>
-                        <input id="new-prod-rating" type="number" step="0.1" min="1" max="5" placeholder="4.9" class="w-full px-4 py-2.5 rounded-xl border border-patisserie-softRose text-xs bg-patisserie-cream focus:outline-none focus:ring-2 focus:ring-patisserie-rose transition-all">
-                    </div>
-                </div>
-                <div>
-                    <label class="text-[10px] uppercase font-bold tracking-wider text-patisserie-muted block mb-1">Descripción de la Receta</label>
-                    <textarea id="new-prod-desc" placeholder="Ingredientes premium y secretos de la Maison..." rows="2" class="w-full px-4 py-2.5 rounded-xl border border-patisserie-softRose text-xs bg-patisserie-cream focus:outline-none focus:ring-2 focus:ring-patisserie-rose transition-all resize-none"></textarea>
-                </div>
-            </div>
-
-             Botones de Acción 
-            <div class="w-full flex flex-col gap-2">
-                <button onclick="addNewProduct()" class="w-full py-3.5 rounded-full bg-patisserie-deepRose hover:bg-patisserie-darkChocolate text-white font-bold text-xs transition-colors shadow-md flex items-center justify-center gap-1.5">
-                    <span class="material-icons text-base">restaurant_menu</span> Publicar en Boutique
-                </button>
-                <button onclick="closeAddProductModal()" class="w-full py-2.5 rounded-full border border-zinc-200 hover:bg-zinc-50 text-zinc-500 font-medium text-xs transition-colors">
-                    Cancelar
-                </button>
-            </div>
-        </div>
-    </div>
--->
     <!-- Pie de página -->
     <footer class="w-full bg-patisserie-darkChocolate text-patisserie-softRose py-8 mt-12 border-t border-patisserie-deepRose/20 relative z-10 text-center text-xs">
         <div class="max-w-7xl mx-auto px-4 flex flex-col items-center gap-4">
@@ -604,7 +562,6 @@
             playSound('click');
             currentCategory = category;
 
-            // Cambiar textos del título del catálogo para mejor claridad
             const catalogTitle = document.getElementById('catalog-title');
             if (category === 'Amelie') {
                 catalogTitle.textContent = "Los Favoritos de Mme. Amélie";
@@ -628,7 +585,6 @@
         const selectSecret = (secretId) => {
             playSound('click');
             
-            // 1. Alternar Clases de las Pestañas
             const tabsContainer = document.getElementById('secrets-tabs');
             const buttons = tabsContainer.getElementsByTagName('button');
             
@@ -640,7 +596,6 @@
                 }
             }
 
-            // 2. Transición Visual del Contenido de Texto
             const textContainer = document.getElementById('secret-text-content');
             textContainer.classList.add('opacity-0', 'translate-x-2');
             
@@ -653,22 +608,16 @@
                 textContainer.classList.remove('opacity-0', 'translate-x-2');
             }, 200);
 
-            // 3. Efecto visual de pétalos extra cayendo
             triggerPetalShower();
         };
 
         const filterAmelieFavorites = () => {
             playSound('success');
-            
-            // Filtra el catálogo para mostrar favoritos de Amélie
             filterCategory('Catalina');
-            
-            // Scroll suave hacia el catálogo
             document.getElementById('catalog-title').scrollIntoView({ behavior: 'smooth' });
             showNotification("Catálogo filtrado por la selección favorita de Amélie chérie.");
         };
 
-        // Lanza una ráfaga adicional de pétalos como recompensa visual
         const triggerPetalShower = () => {
             const container = document.getElementById('petal-shower-container');
             const petals = ['🌸', '🌹', '✨'];
@@ -683,7 +632,6 @@
                 petal.style.animationDuration = `${Math.random() * 6 + 6}s`;
                 
                 container.appendChild(petal);
-                // Remover tras completar animación
                 setTimeout(() => petal.remove(), 12000);
             }
         };
@@ -796,7 +744,6 @@
                     container.appendChild(row);
                 });
 
-                // Cálculos Financieros
                 const deliveryCost = (deliveryMethod === 'delivery') ? DELIVERY_PRICE : 0;
                 const grandTotal = subtotal + deliveryCost;
 
@@ -810,73 +757,7 @@
             }
         };
 
-        // --- 9. Lógica de Modales de Creación de Productos ---
-        const openAddProductModal = () => {
-            playSound('click');
-            const modal = document.getElementById('add-product-modal');
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            modal.querySelector('.bg-white').classList.remove('scale-90');
-            modal.querySelector('.bg-white').classList.add('scale-100');
-        };
-
-        const closeAddProductModal = () => {
-            playSound('click');
-            const modal = document.getElementById('add-product-modal');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            modal.querySelector('.bg-white').classList.remove('scale-100');
-            modal.querySelector('.bg-white').classList.add('scale-90');
-            
-            // Limpiar formulario
-            document.getElementById('new-prod-name').value = '';
-            document.getElementById('new-prod-price').value = '';
-            document.getElementById('new-prod-icon').value = '';
-            document.getElementById('new-prod-rating').value = '';
-            document.getElementById('new-prod-desc').value = '';
-        };
-
-        const addNewProduct = () => {
-            const name = document.getElementById('new-prod-name').value.trim();
-            const category = document.getElementById('new-prod-category').value;
-            const price = parseFloat(document.getElementById('new-prod-price').value);
-            const icon = document.getElementById('new-prod-icon').value.trim() || '🧁';
-            const ratingInput = parseFloat(document.getElementById('new-prod-rating').value);
-            const desc = document.getElementById('new-prod-desc').value.trim() || 'Creación artesanal fresca de la Maison.';
-
-            if (!name) {
-                showNotification('Por favor, ingresa el nombre de tu creación.', 'error');
-                return;
-            }
-            if (isNaN(price) || price < 0) {
-                showNotification('Ingresa un precio válido, s\'il vous plaît.', 'error');
-                return;
-            }
-
-            const rating = isNaN(ratingInput) ? 5.0 : Math.min(Math.max(ratingInput, 1.0), 5.0);
-
-            // Crear nuevo objeto producto
-            const newProduct = {
-                id: 'custom-' + Date.now(),
-                category: category,
-                name: name,
-                price: price,
-                rating: rating,
-                icon: icon,
-                image: `https://placehold.co/400x300/FFF0F2/B56576?text=${encodeURIComponent(icon)}`,
-                desc: desc,
-                amelieFavorite: false
-            };
-
-            // Agregar a la base de datos local
-            PRODUCTS.push(newProduct);
-            
-            // Recargar productos y cerrar modal
-            renderProducts();
-            closeAddProductModal();
-            playSound('success');
-            showNotification(`¡"${name}" ha sido añadido al menú de ${category}!`);
-        };
-
-        // --- 10. Procesamiento de Compra y WhatsApp ---
+        // --- 9. Procesamiento de Compra y WhatsApp ---
         const openCheckoutModal = () => {
             playSound('click');
             const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
@@ -919,7 +800,6 @@
             const deliveryCost = (deliveryMethod === 'delivery') ? DELIVERY_PRICE : 0;
             const grandTotal = subtotal + deliveryCost;
 
-            // Construir el mensaje de WhatsApp elegante
             let message = `*Bonjour La Pâtisserie Rose!* 🌹\n`;
             message += `He realizado un pedido desde la Boutique Virtual:\n\n`;
             message += `👤 *Cliente:* ${name}\n`;
@@ -939,13 +819,12 @@
             message += `\n- *Total Estimado: ${formatCLP(grandTotal)}*\n`;
             message += `\n_Quedo atento/a a la confirmación para la transferencia._`;
 
-            const phone = "56958782270"; //
+            const phone = "56958782270";
             const url = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`;
             
             window.open(url, '_blank');
             closeCheckoutModal();
 
-            // Limpiar cesta tras el envío
             cart = [];
             renderCart();
             showNotification('¡Pedido enviado con éxito a nuestro canal gourmet!');
@@ -956,12 +835,12 @@
             document.getElementById('sidebar-cart').scrollIntoView({ behavior: 'smooth' });
         };
 
-        // --- 11. Inicialización de la Boutique ---
+        // --- 10. Inicialización de la Boutique ---
         window.onload = () => {
             renderProducts();
             renderCart();
-            setDeliveryMethod('pickup'); // Por defecto Retiro
-            selectSecret('hojaldre'); // Seleccionar por defecto el primer secreto
+            setDeliveryMethod('pickup');
+            selectSecret('hojaldre');
         };
     </script>
 </body>
